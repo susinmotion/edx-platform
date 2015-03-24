@@ -49,6 +49,7 @@ section.wiki {
         height: 100%;
         text-overflow: ellipsis;
         white-space: nowrap;
+        color: $m-blue-d2;
       }
 
       &:after {
@@ -275,7 +276,7 @@ section.wiki {
     li {
       &.active {
         a {
-          color: $link-color;
+          color: $m-blue-d2;
           font-weight: bold;
           background-color: $gray-l4;
         }
