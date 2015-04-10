@@ -31,7 +31,9 @@ $ ->
       block = @blocks.slice(start, last + 1).join("").replace(/&/g, "&amp;")
                                                     .replace(/</g, "&lt;")
                                                     .replace(/>/g, "&gt;")
-      if HUB.Browser.isMSIE
+      # Using MathJax.Hub directly instead of creating HUB variable, Sometimes it is called before
+      # being initialized (TNL-1902).
+      if MathJax.Hub.Browser.isMSIE
         block = block.replace /(%[^\n]*)\n/g, "$1<br/>\n"
       @blocks[i] = "" for i in [start+1..last]
       @blocks[start] = "@@#{@math.length}@@"

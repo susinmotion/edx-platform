@@ -153,6 +153,69 @@ class DiscussionTabSingleThreadTest(BaseDiscussionTestCase, DiscussionResponsePa
         self.thread_page = self.create_single_thread_page(thread_id)  # pylint: disable=attribute-defined-outside-init
         self.thread_page.visit()
 
+    def test_mathjax_rendering(self):
+        thread_id = "test_thread_{}".format(uuid4().hex)
+        mathjax_body = """I wrote up my solution to Problem 7.57 in the text in the hope that it is helpful. If you
+        would like to solve Problem 7.57, please don\'t read this message until you have solved the problem.\n\nI
+        welcome your comments on the solution. Thank you.\n\n----------\n\nProblem 7.57 has four parts. Parts (a) and
+        (c) are more straightforward. It took me several hours to construct a proof for part (b). I hope someone else
+        has a shorter proof. I write my solution in two installments. The first installment is part (a) and part (b).
+         \n\n**(a)** $H_1(e^{j\\omega}) = \\sum_{n=-\\infty}^{\\infty}h_1[n]e^{-j\\omega n} = \\sum_{n=-\\infty}
+         ^{\\infty}h[n]e^{-j\\omega n}+\\delta_2e^{-j\\omega n_0}$ $= H(e^{j\\omega})+\\delta_2e^{-j\\omega n_0}=A_e
+         (e^{j\\omega})e^{-j\\omega n_0}+\\delta_2e^{-j\\omega n_0}=e^{-j\\omega n_0}(A_e(e^{j\\omega})+\\delta_2)
+         $.\n\nLet $H_3(e^{j\\omega})=A_e(e^{j\\omega})+\\delta_2$. Since $A_e(e^{j\\omega})$ is real and
+         $A_e(e^{j\\omega}) \\ge -\\delta_2$, it follows that $H_3(e^{j\\omega})$ is real and $H_3(e^{j\\omega})\\ge
+         0$.\n\n**(b)** We need to prove the existence of an $H_2(z)$ such that $H_3(z)=H_2(z)H_2(1/z)$ where $H_2(z)$
+         is a minimum-phase system function and $h_2[n]$ is real. We prove this by construction.\n\nSince $h_3[n]$ is
+         real, its complex zeros come in conjugate pairs. Since $h_3[n]$ has even symmetry about $n=0$, if $z_0$ is a
+         zero, its reciprocal $1/z_0$ is also a zero. Consider four cases.\n\n**Case 1:** If $re^{j\\theta}$ is a
+         complex zero not on the unit circle, then $re^{-j\\theta}$, $r^{-1}e^{j\\theta}$, and $r^{-1}e^{-j\\theta}$
+         are also zeros. Assign the two zeros inside the unit circle (which form a conjugate pair) to $H_2(z)$.
+         \n\n**Case 2:** If $s$ is a real zero not on the unit circle, then $s^{-1}$ is also a real zero. Assign the
+         real zero inside the unit circle to $H_2(z)$.\n\nWe still need to deal with the remaining two cases: complex
+         zeros and real zeros on the unit circle. These two cases need the property $H_3(e^{j\\omega})\\ge 0$ that we
+         proved in part (a).\n\n**Case 3:** Suppose $e^{j\\theta}$ is a complex zero on the unit circle. Its conjugate
+         and reciprocal are the same ($e^{-j\\theta}$). Therefore we need to show $e^{j\\theta}$ and $e^{-j\\theta}$
+         are zeros of even multiplicity.\n\n$(1-e^{j\\theta}z^{-1})(1-e^{-j\\theta}z^{-1}) = 1 - 2cos\\theta z^{-1} +
+          z^{-2} = z^{-1}(z - 2cos\\theta + z^{-1})$. Substituting $z=e^{j\\omega}$, we have $z - 2cos\\theta + z^{-1}
+           = 2cos\\omega - 2cos\\theta = 2(cos\\omega - cos\\theta)$. So, each conjugate pair of complex zeros on the
+           unit circle contributes a $(cos\\omega - cos\\theta)$ term to $H_3(e^{j\\omega})$. We will show that in order
+           for $H_3(e^{j\\omega})$ to not change sign, it must have an even number of $(cos\\omega - cos\\theta)$
+           factors. Informally, we can choose $\\omega$ very close to $\\theta$ so that $(cos\\omega - cos\\theta)$
+           changes sign (crossing $0$) but the other factors of $H_3(e^{j\\omega})$ remain essentially the same.
+           If we have an odd number of the $(cos\\omega - cos\\theta)$ factors, $H_3(e^{j\\omega})$ will change sign,
+           which contradicts $H_3(e^{j\\omega})\\ge 0$.\n\nRecall that $H_3(e^{j\\omega})$ is a polynomial in
+           $cos\\omega$. Suppose $H_3(e^{j\\omega}) = P(cos\\omega)(cos\\omega - cos\\theta)^k$, where the polynomial
+           $P(cos\\omega)$ has no $(cos\\omega - cos\\theta)$ factor. Then $P(cos\\theta) \\neq 0$. Since
+           $P(cos\\omega)$ is a continuous function of $\\omega$, there exists $\\delta > 0$ such that for all
+           $\\omega$ where $|\\omega - \\theta| < \\delta$, $P(cos\\omega)$ is of the same sign. As we vary $\\omega$
+           from one side of $\\theta$ to the other side, $(cos\\omega - cos\\theta)$ will change sign
+           (because $cos\\omega$ is monotonic for $0 < \\omega < \\pi$). Since $H_3(e^{j\\omega}) \\ge 0$,
+            $H_3(e^{j\\omega})$ cannot change sign, which implies $k$ is even. Assign half of the $e^{j\\theta}$
+            and $e^{-j\\theta}$ multiple zeros to $H_2(z)$.\n\n**Case 4:** The last case is real zeros on the unit
+            circle. There are only two real numbers on the unit circle: $1$ and $-1$. Since $H_3(e^{j\\omega})$ is a
+            lowpass filter, $1=e^{j0}$ cannot be a zero. So we just need to show that if $-1$ is a zero, it must be
+            of even multiplicity.\n\nSince the complex zeros of $H_3(z)$ come in conjugate pairs and the real zeros
+            not equal to $-1$ come in reciprocal pairs, the order $M$ being an even integer implies the multiplicity
+            of $-1$ must be even. Assign half of the $-1$ multiple zeros to $H_2(z)$.\n\nAll the zeros we assign to
+            $H_2(z)$ are inside or on the unit circle, and the only poles are $0$, so $H_2(z)$ is a minimum-phase system
+             function. The complex zeros we assign to $H_2(z)$ come in conjugate pairs, so $h_2[n]$ is
+             real.\n\nWan-Teh"""
+
+        thread_fixture = SingleThreadViewFixture(
+            Thread(
+                id=thread_id,
+                body=mathjax_body,
+                commentable_id=self.discussion_id,
+                thread_type="discussion"
+            )
+        )
+        thread_fixture.push()
+        self.setup_thread_page(thread_id)
+        self.assertTrue(self.thread_page._is_discussion_body_visible())
+        self.assertTrue(self.thread_page._is_mathjax_preview_available())
+        self.assertTrue(self.thread_page._is_mathjax_rendered())
+
     def test_marked_answer_comments(self):
         thread_id = "test_thread_{}".format(uuid4().hex)
         response_id = "test_response_{}".format(uuid4().hex)
