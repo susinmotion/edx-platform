@@ -58,6 +58,7 @@ UNENROLL_DONE = Signal(providing_args=["course_enrollment", "skip_refund"])
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: disable=invalid-name
+USER_SETTINGS_CHANGED_EVENT_NAME = 'edx.user.settings.changed'
 
 
 class AnonymousUserId(models.Model):
