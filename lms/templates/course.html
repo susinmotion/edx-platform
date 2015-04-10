@@ -9,8 +9,8 @@ from courseware.courses import course_image_url, get_course_about_section
   <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}">
     <header class="course-image">
       <div class="cover-image">
-        <img src="${course_image_url(course)}" alt="" />
-        <div class="learn-more">${_("LEARN MORE")}</div>
+        <img src="${course_image_url(course)}" alt="${get_course_about_section(course, 'title')} ${course.display_number_with_default}" />
+        <div class="learn-more" aria-hidden=true>${_("LEARN MORE")}</div>
       </div>
     </header>
     <section class="course-info" aria-hidden=true>
@@ -21,6 +21,12 @@ from courseware.courses import course_image_url, get_course_about_section
       </h2>
       <div class="course-date" aria-hidden="true">${_("Starts")}: ${course.start_datetime_text()}</div>
     </section>
-    <div class="sr" aria-label="${get_course_about_section(course, 'university')}${course.display_number_with_default}${get_course_about_section(course, 'title')}${course.start_datetime_text()}"></div>
+    <div class="sr">
+      <ul>
+      <li>${get_course_about_section(course, 'university')}</li>
+      <li>${course.display_number_with_default}</li>
+      <li>${_("Starts")}: <time itemprop="startDate" datetime="${course.start_datetime_text()}">${course.start_datetime_text()}</time></li>
+    </ul>
+    </div>
   </a>
 </article>
