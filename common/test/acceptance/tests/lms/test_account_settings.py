@@ -257,7 +257,6 @@ class AccountSettingsPageTest(EventsTestMixin, WebAppTest):
             u'',
             [u'Pakistan', u''],
         )
-        self.assert_event_emitted_num_times('edx.user.settings.changed', self.start_time, self.user_id, 2)
 
     def test_prefered_language_field(self):
         """
