@@ -16,6 +16,7 @@ class TestUserProfileEvents(UserProfileEventTestMixin, TestCase):
         super(TestUserProfileEvents, self).setUp()
         self.user = UserFactory.create()
         self.profile = self.user.profile
+        self.reset_tracker()
 
     def test_change_one_field(self):
         """
@@ -24,22 +25,18 @@ class TestUserProfileEvents(UserProfileEventTestMixin, TestCase):
         """
         self.profile.year_of_birth = 1900
         self.profile.save()
-        self.assert_profile_event_emitted(
-            year_of_birth={'old_value': None, 'new_value': self.profile.year_of_birth}
-        )
+        self.assert_profile_event_emitted(setting='year_of_birth', old=None, new=self.profile.year_of_birth)
 
     def test_change_many_fields(self):
         """
-        Verify that we emit a single event when many fields change on the user
-        profile in one transaction.
+        Verify that we emit one event per field when many fields change on the
+        user profile in one transaction.
         """
-        self.profile.gender = 'o'
+        self.profile.gender = u'o'
         self.profile.bio = 'test bio'
         self.profile.save()
-        self.assert_profile_event_emitted(
-            gender={'old_value': u'm', 'new_value': u'o'},
-            bio={'old_value': None, 'new_value': self.profile.bio}
-        )
+        self.assert_profile_event_emitted(setting='bio', old=None, new=self.profile.bio)
+        self.assert_profile_event_emitted(setting='gender', old=u'm', new=u'o')
 
     def test_unicode(self):
         """
@@ -48,4 +45,4 @@ class TestUserProfileEvents(UserProfileEventTestMixin, TestCase):
         old_name = self.profile.name
         self.profile.name = u'Dånîél'
         self.profile.save()
-        self.assert_profile_event_emitted(name={'old_value': old_name, 'new_value': self.profile.name})
+        self.assert_profile_event_emitted(setting='name', old=old_name, new=self.profile.name)

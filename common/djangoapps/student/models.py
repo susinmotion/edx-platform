@@ -367,27 +367,18 @@ def emit_field_changed_events(instance, user, event_name, db_table, excluded_fie
     """
     excluded_fields = excluded_fields or []
     changed_fields = instance.tracker.changed()
-    changed_settings = {}
     for field in changed_fields:
         if field not in excluded_fields:
-            field_dict = {
-                field: {
-                    'old_value': changed_fields[field],
-                    'new_value': getattr(instance, field),
+            tracker.emit(
+                event_name,
+                {
+                    "setting": field,
+                    'old': changed_fields[field],
+                    'new': getattr(instance, field),
+                    "user_id": user.id,
+                    "table": db_table
                 }
-            }
-            changed_settings.update(field_dict)
-
-    # only emit events when something has changed
-    if len(changed_settings) > 0:
-        tracker.emit(
-            event_name,
-            {
-                "settings": changed_settings,
-                "user_id": user.id,
-                "table": db_table
-            }
-        )
+            )
 
 
 class UserSignupSource(models.Model):

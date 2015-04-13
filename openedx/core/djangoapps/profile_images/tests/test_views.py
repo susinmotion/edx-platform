@@ -115,7 +115,7 @@ class ProfileImageUploadTestCase(ProfileImageEndpointTestCase):
         profile_image_uploaded_at field changing.
         """
         self.assert_profile_event_emitted(
-            profile_image_uploaded_at={'old_value': u'None', 'new_value': unicode(TEST_UPLOAD_DT)}
+            setting='profile_image_uploaded_at', old=None, new=TEST_UPLOAD_DT
         )
 
     def test_unsupported_methods(self, mock_log):
@@ -280,7 +280,7 @@ class ProfileImageRemoveTestCase(ProfileImageEndpointTestCase):
         profile_image_uploaded_at field changing.
         """
         self.assert_profile_event_emitted(
-            profile_image_uploaded_at={'old_value': unicode(TEST_UPLOAD_DT), 'new_value': u'None'}
+            setting='profile_image_uploaded_at', old=TEST_UPLOAD_DT, new=None
         )
 
     def test_unsupported_methods(self, mock_log):

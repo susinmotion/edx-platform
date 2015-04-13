@@ -66,29 +66,27 @@ class EventTestMixin(object):
     def setUp(self, tracker):
         super(EventTestMixin, self).setUp()
         self.tracker = tracker
-        self.reset_tracker()
+        patcher = patch(self.tracker)
+        self.mock_tracker = patcher.start()
+        self.addCleanup(patcher.stop)
 
     def assert_no_events_were_emitted(self):
         """
         Ensures no events were emitted since the last event related assertion.
         """
         self.assertFalse(self.mock_tracker.emit.called)  # pylint: disable=maybe-no-member
-        self.mock_tracker.reset_mock()
 
     def assert_event_emitted(self, event_name, **kwargs):
         """
         Verify that an event was emitted with the given parameters.
         """
-        self.mock_tracker.emit.assert_called_with(  # pylint: disable=maybe-no-member
+        self.mock_tracker.emit.assert_any_call(  # pylint: disable=maybe-no-member
             event_name,
             kwargs
         )
-        self.mock_tracker.reset_mock()
 
     def reset_tracker(self):
         """
         Reset the mock tracker in order to forget about old events.
         """
-        patcher = patch(self.tracker)
-        self.mock_tracker = patcher.start()
-        self.addCleanup(patcher.stop)
+        self.mock_tracker.reset_mock()

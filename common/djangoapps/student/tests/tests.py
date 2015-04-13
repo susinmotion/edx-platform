@@ -503,12 +503,14 @@ class UserProfileEventTestMixin(EventTestMixin):
             USER_SETTINGS_CHANGED_EVENT_NAME,
             table='auth_userprofile',
             user_id=self.user.id,
-            settings=kwargs
+            **kwargs
         )
 
 
 class EnrollmentEventTestMixin(EventTestMixin):
     """ Mixin with assertions for validating enrollment events. """
+    def setUp(self):
+        super(EnrollmentEventTestMixin, self).setUp('student.models.tracker')
 
     def assert_enrollment_mode_change_event_was_emitted(self, user, course_key, mode):
         """Ensures an enrollment mode change event was emitted"""
