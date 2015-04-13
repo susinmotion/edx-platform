@@ -37,7 +37,10 @@
                                 model: userAccountModel,
                                 title: gettext('Full Name'),
                                 valueAttribute: 'name',
-                                helpMessage: gettext('The name that appears on your edX certificates. Other learners never see your full name.')
+                                helpMessage: gettext(
+                                    'The name that appears on your edX certificates. Other learners never see ' +
+                                    'your full name.'
+                                )
                             })
                         },
                         {
@@ -45,7 +48,10 @@
                                 model: userAccountModel,
                                 title: gettext('Email Address'),
                                 valueAttribute: 'email',
-                                helpMessage: gettext('The email address you use to sign in to edX. Communications from edX and your courses are sent to this address.')
+                                helpMessage: gettext(
+                                    'The email address you use to sign in to edX. Communications ' +
+                                    'from edX and your courses are sent to this address.'
+                                )
                             })
                         },
                         {
@@ -55,8 +61,11 @@
                                 valueAttribute: 'password',
                                 emailAttribute: 'email',
                                 linkTitle: gettext('Reset Password'),
-                                linkHref: fieldsData['password']['url'],
-                                helpMessage: gettext('When you click "Reset Password", a message will be sent to your email address. Click the link in the message to reset your password.')
+                                linkHref: fieldsData.password.url,
+                                helpMessage: gettext('' +
+                                'When you click "Reset Password", a message will be sent to your email address. ' +
+                                'Click the link in the message to reset your password.'
+                                )
                             })
                         },
                         {
@@ -66,8 +75,11 @@
                                 valueAttribute: 'pref-lang',
                                 required: true,
                                 refreshPageOnSave: true,
-                                helpMessage: gettext('The language used for the edX site. The site is currently available in a limited number of languages.'),
-                                options: fieldsData['language']['options']
+                                helpMessage: gettext(
+                                    'The language used for the edX site. The site is currently available in a ' +
+                                    'limited number of languages.'
+                                ),
+                                options: fieldsData.language.options
                             })
                         }
                     ]
@@ -80,7 +92,7 @@
                                 model: userAccountModel,
                                 title: gettext('Education Completed'),
                                 valueAttribute: 'level_of_education',
-                                options: fieldsData['level_of_education']['options']
+                                options: fieldsData.level_of_education.options
                             })
                         },
                         {
@@ -88,7 +100,7 @@
                                 model: userAccountModel,
                                 title: gettext('Gender'),
                                 valueAttribute: 'gender',
-                                options: fieldsData['gender']['options']
+                                options: fieldsData.gender.options
                             })
                         },
                         {
@@ -96,7 +108,7 @@
                                 model: userAccountModel,
                                 title: gettext('Year of Birth'),
                                 valueAttribute: 'year_of_birth',
-                                options: fieldsData['year_of_birth']['options']
+                                options: fieldsData.year_of_birth.options
                             })
                         },
                         {
@@ -104,7 +116,7 @@
                                 model: userAccountModel,
                                 title: gettext('Country or Region'),
                                 valueAttribute: 'country',
-                                options: fieldsData['country']['options']
+                                options: fieldsData.country.options
                             })
                         },
                         {
@@ -112,7 +124,7 @@
                                 model: userAccountModel,
                                 title: gettext('Preferred Language'),
                                 valueAttribute: 'language_proficiencies',
-                                options: fieldsData['preferred_language']['options']
+                                options: fieldsData.preferred_language.options
                             })
                         }
                     ]
@@ -125,14 +137,14 @@
                     fields: _.map(authData.providers, function(provider) {
                         return {
                             'view': new AccountSettingsFieldViews.AuthFieldView({
-                                title: provider['name'],
-                                valueAttribute: 'auth-' + provider['name'].toLowerCase(),
+                                title: provider.name,
+                                valueAttribute: 'auth-' + provider.name.toLowerCase(),
                                 helpMessage: '',
-                                connected: provider['connected'],
-                                connectUrl: provider['connect_url'],
-                                disconnectUrl: provider['disconnect_url']
+                                connected: provider.connected,
+                                connectUrl: provider.connect_url,
+                                disconnectUrl: provider.disconnect_url
                             })
-                        }
+                        };
                     })
                 };
                 sectionsData.push(accountsSectionData);
@@ -156,7 +168,7 @@
                             accountSettingsView.renderFields();
                         },
                         error: showLoadingError
-                    })
+                    });
                 },
                 error: showLoadingError
             });
