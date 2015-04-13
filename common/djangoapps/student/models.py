@@ -372,8 +372,8 @@ def emit_field_changed_events(instance, user, event_name, db_table, excluded_fie
         if field not in excluded_fields:
             field_dict = {
                 field: {
-                    'old_value': unicode(changed_fields[field]),
-                    'new_value': unicode(getattr(instance, field)),
+                    'old_value': changed_fields[field],
+                    'new_value': getattr(instance, field),
                 }
             }
             changed_settings.update(field_dict)

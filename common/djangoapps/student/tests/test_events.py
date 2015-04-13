@@ -25,7 +25,7 @@ class TestUserProfileEvents(UserProfileEventTestMixin, TestCase):
         self.profile.year_of_birth = 1900
         self.profile.save()
         self.assert_profile_event_emitted(
-            year_of_birth={'old_value': u'None', 'new_value': unicode(self.profile.year_of_birth)}
+            year_of_birth={'old_value': None, 'new_value': self.profile.year_of_birth}
         )
 
     def test_change_many_fields(self):
@@ -38,7 +38,7 @@ class TestUserProfileEvents(UserProfileEventTestMixin, TestCase):
         self.profile.save()
         self.assert_profile_event_emitted(
             gender={'old_value': u'm', 'new_value': u'o'},
-            bio={'old_value': u'None', 'new_value': unicode(self.profile.bio)}
+            bio={'old_value': None, 'new_value': self.profile.bio}
         )
 
     def test_unicode(self):
