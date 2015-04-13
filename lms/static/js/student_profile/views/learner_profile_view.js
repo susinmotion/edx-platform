@@ -6,7 +6,7 @@
 
         var LearnerProfileView = Backbone.View.extend({
 
-            initialize: function (options) {
+            initialize: function () {
                 this.template = _.template($('#learner_profile-tpl').text());
                 _.bindAll(this, 'showFullProfile', 'render', 'renderFields', 'showLoadingError');
                 this.listenTo(this.options.preferencesModel, "change:" + 'account_privacy', this.render);
@@ -48,13 +48,13 @@
                 this.$('.profile-section-one-fields').append(this.options.usernameFieldView.render().el);
 
                 if (this.showFullProfile()) {
-                    _.each(this.options.sectionOneFieldViews, function (fieldView, index) {
+                    _.each(this.options.sectionOneFieldViews, function (fieldView) {
                         fieldView.undelegateEvents();
                         view.$('.profile-section-one-fields').append(fieldView.render().el);
                         fieldView.delegateEvents();
                     });
 
-                    _.each(this.options.sectionTwoFieldViews, function (fieldView, index) {
+                    _.each(this.options.sectionTwoFieldViews, function (fieldView) {
                         fieldView.undelegateEvents();
                         view.$('.profile-section-two-fields').append(fieldView.render().el);
                         fieldView.delegateEvents();
@@ -69,5 +69,5 @@
         });
 
         return LearnerProfileView;
-    })
+    });
 }).call(this, define || RequireJS.define);

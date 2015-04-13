@@ -6,7 +6,7 @@
 
         var AccountSettingsView = Backbone.View.extend({
 
-            initialize: function (options) {
+            initialize: function () {
                 this.template = _.template($('#account_settings-tpl').text());
                 _.bindAll(this, 'render', 'renderFields', 'showLoadingError');
             },
@@ -23,7 +23,7 @@
 
                 var view = this;
                 _.each(this.$('.account-settings-section-body'), function (sectionEl, index) {
-                    _.each(view.options.sectionsData[index].fields, function (field, index) {
+                    _.each(view.options.sectionsData[index].fields, function (field) {
                         $(sectionEl).append(field.view.render().el);
                     });
                 });
@@ -37,5 +37,5 @@
         });
 
         return AccountSettingsView;
-    })
+    });
 }).call(this, define || RequireJS.define);

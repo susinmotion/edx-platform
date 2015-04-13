@@ -61,7 +61,7 @@
                 this.resetPassword(event);
             },
 
-            resetPassword: function (event) {
+            resetPassword: function () {
                 var data = {};
                 data[this.options.emailAttribute] = this.model.get(this.options.emailAttribute);
 
@@ -71,7 +71,7 @@
                     url: view.options.linkHref,
                     data: data,
                     success: function () {
-                        view.showSuccessMessage()
+                        view.showSuccessMessage();
                     },
                     error: function (xhr) {
                         view.showErrorMessage(xhr);
@@ -95,7 +95,7 @@
             modelValue: function () {
                 var modelValue = this.model.get(this.options.valueAttribute);
                 if (_.isArray(modelValue) && modelValue.length > 0) {
-                    return modelValue[0].code
+                    return modelValue[0].code;
                 } else {
                     return '';
                 }
