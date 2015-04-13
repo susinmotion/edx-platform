@@ -34,8 +34,7 @@
       text-decoration: none !important;
 
       &:hover, &:focus, &:active {
-        border-bottom: 1px dotted $blue;
-        color: $blue;
+        border-bottom: 1px dotted $link-color;
       }
     }
 

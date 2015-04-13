@@ -48,7 +48,7 @@
           border-radius: 0;
           box-shadow: none;
           @include padding-left(19px);
-          color: $m-blue-d2;
+          color: $link-color;
         }
 
         &.ui-state-active {

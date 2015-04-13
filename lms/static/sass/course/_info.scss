@@ -85,7 +85,7 @@ div.info-wrapper {
     font-size: 14px;
 
     a {
-      color: $m-blue-d2;
+      color: $link-color;
     }
 
     &:after {
@@ -108,7 +108,7 @@ div.info-wrapper {
         a {
           display: block;
           padding: 0;
-          color: $m-blue-d2;
+          color: $link-color;
 
           &:hover, &:focus {
             background: transparent;
@@ -121,7 +121,7 @@ div.info-wrapper {
           @include transition(all .2s linear 0s);
 
           h4 {
-            color: $m-blue-d2;
+            color: $link-color;
             font-size: 1em;
             font-weight: normal;
             padding-left: 30px;
