@@ -179,5 +179,5 @@
                 accountSettingsView: accountSettingsView
             };
         };
-    })
+    });
 }).call(this, define || RequireJS.define);
